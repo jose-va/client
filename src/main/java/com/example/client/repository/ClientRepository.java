@@ -6,11 +6,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Repository;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Repository
-public class ClientRepository extends {
+@DynamoDbBean
+public interface ClientRepository{
+
 }
