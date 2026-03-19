@@ -12,9 +12,6 @@ import lombok.*;
 @DynamoDBTable(tableName = "MainTable")
 public class Client extends MainTable {
 
-    @DynamoDBAttribute(attributeName = "id")
-    private String id;
-
     @DynamoDBAttribute(attributeName = "name")
     private String name;
 
