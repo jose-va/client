@@ -1,40 +1,32 @@
 package com.example.client.model;
 
-import com.example.client.service.MainTable;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
-import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
-import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSortKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@DynamoDbBean
+@Builder
+@DynamoDBTable(tableName = "MainTable")
 public class Client extends MainTable {
 
+    @DynamoDBAttribute(attributeName = "id")
     private String id;
 
+    @DynamoDBAttribute(attributeName = "name")
     private String name;
 
+    @DynamoDBAttribute(attributeName = "surname")
     private String surname;
 
+    @DynamoDBAttribute(attributeName = "cifNifNie")
     private String cifNifNie;
 
+    @DynamoDBAttribute(attributeName = "phone")
     private Long phone;
 
+    @DynamoDBAttribute(attributeName = "email")
     private String email;
-
-    @DynamoDbPartitionKey
-    public String getId() {
-        return id;
-    }
-
-    @DynamoDbSortKey
-    public String getCifNifNie() {
-        return cifNifNie;
-    }
 }
