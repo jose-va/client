@@ -1,34 +1,35 @@
 package com.example.client.controller;
 
-import com.example.client.model.Client;
-import com.example.client.repository.ClientRepository;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.client.dto.ClientDTO;
+import com.example.client.service.ClientService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController
 @RequestMapping ("/api/clients")
 public class ClientController {
 
-//    @Autowired
-    private ClientRepository clientRepository;
+    private final ClientService clientService;
 
-    @GetMapping
+    @PostMapping("/create")
     @ResponseStatus(HttpStatus.OK)
-    public List<Client> getAllClients(){
-        return clientRepository.findAll();
+    public void createClient(@RequestBody ClientDTO dto) {
+
+        clientService.saveClient(dto);
     }
 
-    @PostMapping
-    public void createClient(@RequestBody Client client){
-        clientRepository.save(client);
+    @GetMapping("/find/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ClientDTO getAllClients(@PathVariable String id) {
+        return clientService.findById(id);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteClient(@PathVariable String id) {
+        clientService.deleteClient(id);
     }
 
 }
