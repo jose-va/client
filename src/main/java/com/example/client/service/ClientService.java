@@ -63,11 +63,10 @@ public class ClientService {
                 .toList();
     }
 
-    public Optional<ClientDTO> findByEmail(String email) {
-        return clientRepository.findAll()
+    public List<ClientDTO> findByEmail(String email) {
+        return clientRepository.findByEmail(email)
                 .stream()
-                .filter(c -> c.getEmail().toLowerCase().contains(email.toLowerCase()))
                 .map(clientMapper::toDto)
-                .findFirst();
+                .toList();
     }
 }

@@ -45,7 +45,7 @@ public class ClientController {
     }
 
     @GetMapping("/findEmail")
-    public Optional<ClientDTO> findByEmail(@Pattern(regexp = "^[a-z]+\\.[a-z]+@petroprix.com$") @RequestParam String email){
+    public List<ClientDTO> findByEmail(@Pattern(regexp = "^[a-z]+\\.[a-z]+@petroprix.com$") @RequestParam String email){
         return clientService.findByEmail(email);
     }
 
