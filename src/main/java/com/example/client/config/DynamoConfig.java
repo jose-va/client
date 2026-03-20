@@ -1,4 +1,4 @@
-package com.example.client;
+package com.example.client.config;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
