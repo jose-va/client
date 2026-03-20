@@ -5,12 +5,12 @@ import com.example.client.mappers.ClientMapper;
 import com.example.client.model.Client;
 import com.example.client.repository.ClientRepository;
 import lombok.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -22,14 +22,15 @@ public class ClientService {
     public void saveClient(ClientDTO dto) {
         Client client= clientMapper.toEntity(dto);
 
+        client.setId(UUID.randomUUID().toString());
         client.setPk("CLIENT#" + client.getId());
         client.setSk("NIF#" + client.getCifNifNie());
-        client.setGIndex2Pk("PHONE#" + client.getPhone());
+        client.setGIndex2Pk("EMAIL#" + client.getEmail());
 
         clientRepository.save(client);
     }
 
-    public void updateClient(ClientDTO dto, String id) {
+    public void updateClient(String id, ClientDTO dto) {
 
         Client updateClient = clientMapper.toEntity(dto);
 
@@ -55,10 +56,7 @@ public class ClientService {
     }
 
     public List<ClientDTO> findByName(String name) {
-
-        List<Client> clientList= clientRepository.findAll();
-
-        return clientList
+        return clientRepository.findAll()
                 .stream()
                 .filter(c -> c.getName().toLowerCase().contains(name.toLowerCase()))
                 .map(clientMapper::toDto)

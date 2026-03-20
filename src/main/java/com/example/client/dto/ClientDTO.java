@@ -2,13 +2,10 @@ package com.example.client.dto;
 
 import lombok.*;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 public class ClientDTO {
-    private String id;
-    private String name;
-    private String email;
-    private String cifNifNie;
+    private final String id;
+    private final String name;
+    private final String email;
+    private final String cifNifNie;
 }

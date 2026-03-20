@@ -6,7 +6,6 @@ import com.example.client.model.Client;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -19,11 +18,11 @@ public class ClientRepository {
         dynamoDBMapper.save(client);
     }
 
-    public List<Client> findAll() {
-        return dynamoDBMapper.scan(Client.class, new DynamoDBScanExpression());
-    }
-
     public Client findById(String pk, String sk) {
         return dynamoDBMapper.load(Client.class, pk, sk);
+    }
+
+    public List<Client> findAll() {
+        return dynamoDBMapper.scan(Client.class, new DynamoDBScanExpression());
     }
 }

@@ -2,13 +2,15 @@ package com.example.client.model;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
+
 import java.util.Date;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@SuperBuilder
 @DynamoDBTable(tableName = "MainTable")
 public class MainTable {
 
