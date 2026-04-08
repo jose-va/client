@@ -10,7 +10,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 @Component
 public class AgeInterceptor implements HandlerInterceptor {
 
-    private final String SECRET_KEY = "mi_clave_secreta_super_segura";
+    private final String SECRET_KEY = "";
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -37,7 +37,7 @@ public class AgeInterceptor implements HandlerInterceptor {
             return true;
 
         } catch (Exception e) {
-            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Token inválido o error de edad: " + e.getMessage());
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "El token es inválido" + e.getMessage());
             return false;
         }
     }

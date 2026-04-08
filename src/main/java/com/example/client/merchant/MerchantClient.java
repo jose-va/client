@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @FeignClient(name = "merchant", url="http://localhost:8081/api/merchant")
 public interface MerchantClient {
-
+      
     @GetMapping("/find/{id}")
     Optional<MerchantDTO> findById(@PathVariable String id, @RequestParam String address);
 }

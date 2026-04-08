@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -25,32 +24,33 @@ public class ClientService {
         client.setId(UUID.randomUUID().toString());
         client.setPk("CLIENT#" + client.getId());
         client.setSk("NIF#" + client.getCifNifNie());
+        client.setGIndex1Pk("STATUS#ACTIVE");
         client.setGIndex2Pk("EMAIL#" + client.getEmail());
 
         clientRepository.save(client);
     }
 
-    public void updateClient(String id, ClientDTO dto) {
-
-        Client updateClient = clientMapper.toEntity(dto);
-
-        updateClient.setId(id);
-        updateClient.setPk("CLIENT#" + id);
-        updateClient.setSk("NIF#" + updateClient.getCifNifNie());
-        updateClient.setGIndex2Pk("EMAIL#" + updateClient.getEmail());
-
-        clientRepository.save(updateClient);
+    public List<ClientDTO> findAll() {
+        return clientRepository.findAll()
+                .stream()
+                .map(clientMapper::toDto)
+                .toList();
     }
 
-    public Object findById(String id, String nif, boolean simpleOutput) {
+    public List<ClientDTO> findByEmail(String email) {
+        return clientRepository.findByEmail(email)
+                .stream()
+                .map(clientMapper::toDto)
+                .toList();
+    }
 
-        String pk = "MERCHANT#" + id;
+    public Object findById(String id, String nif) {
+
+        String pk = "CLIENT#" + id;
         String sk = "NIF#" + nif;
 
         Client client = clientRepository.findById(pk, sk);
         if (client == null) throw new RuntimeException("Cliente no encontrado");
-        
-        if (simpleOutput) return Map.of("id", client.getId());
 
         return clientMapper.toDto(client);
     }
@@ -63,10 +63,25 @@ public class ClientService {
                 .toList();
     }
 
-    public List<ClientDTO> findByEmail(String email) {
-        return clientRepository.findByEmail(email)
-                .stream()
-                .map(clientMapper::toDto)
-                .toList();
+    public void updateClient(ClientDTO dto) {
+
+        Client updatedClient = clientMapper.toEntity(dto);
+
+        updatedClient.setPk("CLIENT#" + updatedClient.getId());
+        updatedClient.setSk("NIF#" + updatedClient.getCifNifNie());
+        updatedClient.setGIndex1Pk("STATUS#ACTIVE");
+        updatedClient.setGIndex2Pk("EMAIL#" + updatedClient.getEmail());
+
+        clientRepository.save(updatedClient);
+    }
+
+    public void deleteClient(String id, String nif){
+
+        String pk = "CLIENT#" + id;
+        String sk = "NIF#" + nif;
+
+        Client client = clientRepository.findById(pk, sk);
+
+        clientRepository.delete(client);
     }
 }

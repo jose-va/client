@@ -15,7 +15,7 @@ import java.util.Optional;
 @Validated
 @RequiredArgsConstructor
 @RequestMapping ("/api/client")
-@RestController
+@RestController 
 public class ClientController {
 
     private final ClientService clientService;
@@ -27,31 +27,42 @@ public class ClientController {
         clientService.saveClient(dto);
     }
 
-    @GetMapping("/find/{id}")
+    @PutMapping("/update")
     @ResponseStatus(HttpStatus.OK)
-    public Object findById(@PathVariable String id, @RequestParam String nif, @RequestParam boolean simpleOutput) {
-        return clientService.findById(id, nif, simpleOutput);
+    public void updateClient(@RequestBody ClientDTO dto){
+        clientService.updateClient(dto);
+    }
+
+    @DeleteMapping("/delete")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteClient(@RequestParam String id, @RequestParam String nif){
+        clientService.deleteClient(id, nif);
+    }
+
+    @GetMapping("/findAll")
+    public List<ClientDTO> findAll(){
+        return clientService.findAll();
+    }
+
+    @GetMapping("/find")
+    @ResponseStatus(HttpStatus.OK)
+    public Object findById(@RequestParam String id, @RequestParam String nif) {
+        return clientService.findById(id, nif);
+    }
+
+    @GetMapping("/findByName/{name}")
+    public List<ClientDTO> findByName(@PathVariable String name){
+        return clientService.findByName(name);
+    }
+
+    @GetMapping("/findByEmail/{email}")
+    public List<ClientDTO> findByEmail(@PathVariable String email){
+        return clientService.findByEmail(email);
     }
 
     @GetMapping("/merchant/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Optional<MerchantDTO> findMerchant(@PathVariable String id, @RequestParam String address) {
+    public Optional<MerchantDTO> findMerchant(@RequestParam String id, @RequestParam String address) {
         return merchantClient.findById(id, address);
-    }
-
-    @GetMapping("/findName")
-    public List<ClientDTO> findByName(@RequestParam String name){
-        return clientService.findByName(name);
-    }
-
-    @GetMapping("/findEmail")
-    public List<ClientDTO> findByEmail(@Pattern(regexp = "^[a-z]+\\.[a-z]+@petroprix.com$") @RequestParam String email){
-        return clientService.findByEmail(email);
-    }
-
-    @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public void updateClient(@PathVariable String id, @RequestBody ClientDTO dto){
-        clientService.updateClient(id, dto);
     }
 }

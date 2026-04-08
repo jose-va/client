@@ -4,7 +4,6 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.example.client.model.Client;
-import com.example.client.model.MainTable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -24,22 +23,31 @@ public class ClientRepository {
         return dynamoDBMapper.load(Client.class, pk, sk);
     }
 
-    public List<MainTable> findByEmail(String email) {
-        MainTable hashKey = MainTable.builder()
-                .gIndex2Pk(email)
-                .build();
+    public List<Client> findByEmail(String email) {
+        Client filter = new Client();
+        filter.setEmail(email);
 
-        DynamoDBQueryExpression<MainTable> queryExpression = new DynamoDBQueryExpression<MainTable>()
-                .withHashKeyValues(hashKey)
+        DynamoDBQueryExpression<Client> queryExpression = new DynamoDBQueryExpression<Client>()
+                .withHashKeyValues(filter)
                 .withIndexName("GI2_PK")
                 .withConsistentRead(false);
 
-        return dynamoDBMapper.query(MainTable.class, queryExpression);
+        return dynamoDBMapper.query(Client.class, queryExpression);
     }
 
     public List<Client> findAll() {
-        return dynamoDBMapper.scan(Client.class, new DynamoDBScanExpression());
+        Client filter = new Client();
+        filter.setGIndex1Pk("STATUS#ACTIVE");
+
+        DynamoDBQueryExpression<Client> queryExpression = new DynamoDBQueryExpression<Client>()
+                .withHashKeyValues(filter)
+                .withIndexName("GI1_PK")
+                .withConsistentRead(false);
+
+        return dynamoDBMapper.query(Client.class, queryExpression);
     }
 
-
+    public void delete(Client client) {
+        dynamoDBMapper.delete(client);
+    }
 }
