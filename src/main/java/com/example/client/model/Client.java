@@ -27,4 +27,5 @@ public class Client extends MainTable {
 
     @DynamoDBAttribute(attributeName = "email")
     private String email;
+
 }

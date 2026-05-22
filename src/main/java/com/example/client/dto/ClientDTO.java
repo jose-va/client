@@ -4,8 +4,10 @@ import lombok.*;
 
 @Data
 public class ClientDTO {
-    private final String id;
-    private final String name;
-    private final String email;
-    private final String cifNifNie;
+    private String id;
+    private String name;
+    private String surname;
+    private Long phone;
+    private String email;
+    private String cifNifNie;
 }

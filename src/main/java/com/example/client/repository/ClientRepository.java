@@ -23,18 +23,6 @@ public class ClientRepository {
         return dynamoDBMapper.load(Client.class, pk, sk);
     }
 
-    public List<Client> findByEmail(String email) {
-        Client filter = new Client();
-        filter.setEmail(email);
-
-        DynamoDBQueryExpression<Client> queryExpression = new DynamoDBQueryExpression<Client>()
-                .withHashKeyValues(filter)
-                .withIndexName("GI2_PK")
-                .withConsistentRead(false);
-
-        return dynamoDBMapper.query(Client.class, queryExpression);
-    }
-
     public List<Client> findAll() {
         Client filter = new Client();
         filter.setGIndex1Pk("STATUS#ACTIVE");

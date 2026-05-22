@@ -29,9 +29,6 @@ public class MainTable {
     @DynamoDBIndexHashKey(globalSecondaryIndexName = "GI1_PK", attributeName = "gIndex1Pk")
     private String gIndex1Pk;
 
-    @DynamoDBIndexHashKey(globalSecondaryIndexName = "GI2_PK", attributeName = "gIndex2Pk")
-    private String gIndex2Pk;
-
     @DynamoDBAttribute(attributeName = "createdDate")
     private Date createdDate;
 }

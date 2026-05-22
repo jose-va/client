@@ -1,4 +1,4 @@
-package com.example.client.merchant;
+package com.example.client.dto;
 
 import lombok.*;
 
@@ -7,5 +7,6 @@ public class MerchantDTO {
     private String id;
     private String name;
     private String address;
-    private String merchantType;
+    private MerchantType merchantType;
+    private String clientId;
 }
